@@ -58,12 +58,13 @@ DWORD GetReflectiveLoaderOffset( VOID * lpReflectiveDllBuffer )
 	UINT_PTR uiAddressArray  = 0;
 	UINT_PTR uiNameOrdinals  = 0;
 	DWORD dwCounter          = 0;
-#ifdef WIN_X64
-	DWORD dwCompiledArch = 2;
-#else
-	// This will catch Win32 and WinRT.
-	DWORD dwCompiledArch = 1;
-#endif
+
+//#ifdef WIN_X64
+//	DWORD dwCompiledArch = 2;
+//#else
+//	// This will catch Win32 and WinRT.
+//	DWORD dwCompiledArch = 1;
+//#endif
 
 	uiBaseAddress = (UINT_PTR)lpReflectiveDllBuffer;
 
@@ -72,20 +73,20 @@ DWORD GetReflectiveLoaderOffset( VOID * lpReflectiveDllBuffer )
 
 	// currenlty we can only process a PE file which is the same type as the one this fuction has  
 	// been compiled as, due to various offset in the PE structures being defined at compile time.
-	if( ((PIMAGE_NT_HEADERS)uiExportDir)->OptionalHeader.Magic == 0x010B ) // PE32
-	{
-		if( dwCompiledArch != 1 )
-			return 0;
-	}
-	else if( ((PIMAGE_NT_HEADERS)uiExportDir)->OptionalHeader.Magic == 0x020B ) // PE64
-	{
-		if( dwCompiledArch != 2 )
-			return 0;
-	}
-	else
-	{
-		return 0;
-	}
+	//if( ((PIMAGE_NT_HEADERS)uiExportDir)->OptionalHeader.Magic == 0x010B ) // PE32
+	//{
+	//	if( dwCompiledArch != 1 )
+	//		return 0;
+	//}
+	//else if( ((PIMAGE_NT_HEADERS)uiExportDir)->OptionalHeader.Magic == 0x020B ) // PE64
+	//{
+	//	if( dwCompiledArch != 2 )
+	//		return 0;
+	//}
+	//else
+	//{
+	//	return 0;
+	//}
 
 	// uiNameArray = the address of the modules export directory entry
 	uiNameArray = (UINT_PTR)&((PIMAGE_NT_HEADERS)uiExportDir)->OptionalHeader.DataDirectory[ IMAGE_DIRECTORY_ENTRY_EXPORT ];
@@ -219,7 +220,7 @@ HANDLE WINAPI LoadRemoteLibraryR( HANDLE hProcess, LPVOID lpBuffer, DWORD dwLeng
 			lpReflectiveLoader = (LPTHREAD_START_ROUTINE)( (ULONG_PTR)lpRemoteLibraryBuffer + dwReflectiveLoaderOffset );
 
 			// create a remote thread in the host process to call the ReflectiveLoader!
-			hThread = CreateRemoteThread( hProcess, NULL, 1024*1024, lpReflectiveLoader, lpParameter, (DWORD)NULL, &dwThreadId );
+			hThread = CreateRemoteThread( hProcess, NULL, 1024*1024, lpReflectiveLoader, lpParameter, 0, &dwThreadId );
 
 		} while( 0 );
 

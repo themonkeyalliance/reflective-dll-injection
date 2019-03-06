@@ -46,16 +46,18 @@ int main( int argc, char * argv[] )
 	DWORD dwLength        = 0;
 	DWORD dwBytesRead     = 0;
 	DWORD dwProcessId     = 0;
-	TOKEN_PRIVILEGES priv = {0};
+	TOKEN_PRIVILEGES priv = { 0 };
 
-#ifdef WIN_X64
-	char * cpDllFile  = "reflective_dll.x64.dll";
+#if defined _M_IX86
+	char * cpDllFile = "reflective_dll.Win32.dll";
+#elif defined _M_AMD64
+	char * cpDllFile = "reflective_dll.x64.dll";
+#elif defined _M_ARM
+	char * cpDllFile = "reflective_dll.arm.dll";
+#elif defined _M_ARM64
+	char * cpDllFile = "reflective_dll.arm64.dll";
 #else
-#ifdef WIN_X86
-	char * cpDllFile  = "reflective_dll.dll";
-#else WIN_ARM
-	char * cpDllFile  = "reflective_dll.arm.dll";
-#endif
+#error "Unsupported arch type."
 #endif
 
 	do

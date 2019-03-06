@@ -83,12 +83,12 @@ typedef struct _UNICODE_STR
   USHORT MaximumLength;
   PWSTR pBuffer;
 } UNICODE_STR, *PUNICODE_STR;
-
-// WinDbg> dt -v ntdll!_LDR_DATA_TABLE_ENTRY
-//__declspec( align(8) ) 
+//
+//// WinDbg> dt -v ntdll!_LDR_DATA_TABLE_ENTRY
+////__declspec( align(8) ) 
 typedef struct _LDR_DATA_TABLE_ENTRY
 {
-	//LIST_ENTRY InLoadOrderLinks; // As we search from PPEB_LDR_DATA->InMemoryOrderModuleList we dont use the first entry.
+//	//LIST_ENTRY InLoadOrderLinks; // As we search from PPEB_LDR_DATA->InMemoryOrderModuleList we dont use the first entry.
 	LIST_ENTRY InMemoryOrderModuleList;
 	LIST_ENTRY InInitializationOrderModuleList;
 	PVOID DllBase;
@@ -102,8 +102,8 @@ typedef struct _LDR_DATA_TABLE_ENTRY
 	LIST_ENTRY HashTableEntry;
 	ULONG TimeDateStamp;
 } LDR_DATA_TABLE_ENTRY, *PLDR_DATA_TABLE_ENTRY;
-
-// WinDbg> dt -v ntdll!_PEB_LDR_DATA
+//
+//// WinDbg> dt -v ntdll!_PEB_LDR_DATA
 typedef struct _PEB_LDR_DATA //, 7 elements, 0x28 bytes
 {
    DWORD dwLength;
@@ -114,16 +114,16 @@ typedef struct _PEB_LDR_DATA //, 7 elements, 0x28 bytes
    LIST_ENTRY InInitializationOrderModuleList;
    LPVOID lpEntryInProgress;
 } PEB_LDR_DATA, * PPEB_LDR_DATA;
-
-// WinDbg> dt -v ntdll!_PEB_FREE_BLOCK
+//
+//// WinDbg> dt -v ntdll!_PEB_FREE_BLOCK
 typedef struct _PEB_FREE_BLOCK // 2 elements, 0x8 bytes
 {
    struct _PEB_FREE_BLOCK * pNext;
    DWORD dwSize;
 } PEB_FREE_BLOCK, * PPEB_FREE_BLOCK;
-
-// struct _PEB is defined in Winternl.h but it is incomplete
-// WinDbg> dt -v ntdll!_PEB
+//
+//// struct _PEB is defined in Winternl.h but it is incomplete
+//// WinDbg> dt -v ntdll!_PEB
 typedef struct __PEB // 65 elements, 0x210 bytes
 {
    BYTE bInheritedAddressSpace;

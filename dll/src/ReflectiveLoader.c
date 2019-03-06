@@ -111,9 +111,16 @@ DLLEXPORT ULONG_PTR WINAPI ReflectiveLoader( VOID )
 	uiBaseAddress = __readgsqword( 0x60 );
 #else
 #ifdef WIN_X86
-	uiBaseAddress = __readfsdword( 0x30 );
+	uiBaseAddress = __readfsdword(0x30);
+#elif defined _M_ARM64
+	typedef struct _TEB
+	{
+		BYTE Reserved0[0x60];
+		_PPEB ProcessEnvironmentBlock;
+	} TEB, *PTEB;
+	uiBaseAddress = (ULONG_PTR)((PTEB)NtCurrentTeb())->ProcessEnvironmentBlock;
 #else WIN_ARM
-	uiBaseAddress = *(DWORD *)( (BYTE *)_MoveFromCoprocessor( 15, 0, 13, 0, 2 ) + 0x30 );
+	uiBaseAddress = *(DWORD *)((BYTE *)_MoveFromCoprocessor(15, 0, 13, 0, 2) + 0x30);
 #endif
 #endif
 

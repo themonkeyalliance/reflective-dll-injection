@@ -1,6 +1,9 @@
+.vs/
 Release/
 Debug/
 x64/
+ARM/
+ARM64/
 dll/Release/
 dll/Debug/
 dll/reflective_dll.vcproj.*.user
@@ -14,3 +17,4 @@ rdi.suo
 rdi.sdf
 rdi.opensdf
 rdi.v11.suo
+/build/
