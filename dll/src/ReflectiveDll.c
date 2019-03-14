@@ -2,7 +2,9 @@
 // This is a stub for the actuall functionality of the DLL.
 //===============================================================================================//
 #include "ReflectiveLoader.h"
-
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 // Note: REFLECTIVEDLLINJECTION_VIA_LOADREMOTELIBRARYR and REFLECTIVEDLLINJECTION_CUSTOM_DLLMAIN are
 // defined in the project properties (Properties->C++->Preprocessor) so as we can specify our own 
 // DllMain and use the LoadRemoteLibraryR() API to inject this DLL.
@@ -21,7 +23,12 @@ BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD dwReason, LPVOID lpReserved )
 			break;
 		case DLL_PROCESS_ATTACH:
 			hAppInstance = hinstDLL;
-			MessageBoxA( NULL, "Hello from DllMain!", "Reflective Dll Injection", MB_OK );
+            {
+                uint32_t num = 0;
+                for (int i = 0; i < 100000; i++)
+                    num += rand();
+                printf("\n*** Highgate Reflective DLL Load Successful ***\n");
+            }
 			break;
 		case DLL_PROCESS_DETACH:
 		case DLL_THREAD_ATTACH:
